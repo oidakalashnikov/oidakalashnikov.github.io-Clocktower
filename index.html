@@ -8,17 +8,15 @@
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true;">
-        <!-- GPS camera setup to get the geolocation -->
-       
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true; trackingMethod: best;">
+        <!-- GPS camera setup to get the real geolocation -->
+        <a-camera gps-camera="facing: user;"></a-camera>
 
-        <!-- AR Entity with 3D model (adjust scale for visibility) -->
-        <a-entity gps-entity-place="latitude: 34.065377742207176; longitude: -118.26905833573208"
+        <!-- AR Entity with 3D model (set to real geo-location) -->
+        <a-entity gps-entity-place="latitude: 34.065444; longitude: -118.269111"
                   gltf-model="https://oidakalashnikov.github.io/oidakalashnikov.github.io-Clocktower/MIC.glb"
-                  scale="50 50 50">
+                  scale="5 5 5">
         </a-entity>
     </a-scene>
 </body>
 </html>
-
-
