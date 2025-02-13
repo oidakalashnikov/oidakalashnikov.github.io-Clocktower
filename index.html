@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR.js Clocktower</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://unpkg.com/aframe-gps-camera-component@1.7.2/dist/aframe-gps-camera-component.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene 
+        embedded 
+        arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
+        vr-mode-ui="enabled: false"
+        renderer="antialias: true; alpha: true">
+        
+        <!-- The Camera with GPS Tracking -->
+        <a-camera gps-camera rotation-reader></a-camera>
+
+        <!-- 3D Model (GLTF or OBJ) at a Specific Geolocation -->
+        <a-entity 
+            gps-entity-place="latitude: 34.065444; longitude: -118.269111"
+            scale="2 2 2"
+            gltf-model="https://skfb.ly/RCGN">
+        </a-entity>
+
+    </a-scene>
+</body>
+</html>
