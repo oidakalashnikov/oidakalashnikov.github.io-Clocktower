@@ -9,16 +9,23 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: true; trackingMethod: best;">
+        
         <!-- GPS camera setup to get the real geolocation -->
-        <a-camera gps-camera="facing: user;" position="0 0 0" id="gps-camera"></a-camera>
+        <a-camera gps-camera rotation-reader id="gps-camera"></a-camera>
 
-        <!-- AR Entity with 3D model (set to real geo-location) -->
+        <!-- Clocktower Model at Fixed GPS Location -->
         <a-entity gps-entity-place="latitude: 34.058372665138606; longitude: -118.27993603519408"
-                  position="50 0 50"
-                  rotation="0 180 0"
                   gltf-model="https://oidakalashnikov.github.io/oidakalashnikov.github.io-Clocktower/Clocktower.glb"
+                  rotation="0 180 0"
                   scale="10 10 10">
         </a-entity>
+
+        <!-- Location Marker (A simple red square at the same GPS location) -->
+        <a-entity gps-entity-place="latitude: 34.06539840017677; longitude: -118.26901787471688"
+                  geometry="primitive: plane; height: 5; width: 5"
+                  material="color: red; opacity: 0.5">
+        </a-entity>
+
     </a-scene>
 
     <script>
