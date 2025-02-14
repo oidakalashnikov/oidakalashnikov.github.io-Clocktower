@@ -13,33 +13,63 @@
         <!-- GPS camera setup to get the real geolocation -->
         <a-camera gps-camera rotation-reader id="gps-camera"></a-camera>
 
-        <!-- Clocktower Model at Fixed GPS Location -->
-        <a-entity gps-entity-place="latitude: 34.058372665138606; longitude: -118.27993603519408"
+        <!-- Clocktower Model at Correct GPS Location -->
+        <a-entity gps-entity-place="latitude: 34.0653984; longitude: -118.2690179"
                   gltf-model="https://oidakalashnikov.github.io/oidakalashnikov.github.io-Clocktower/Clocktower.glb"
                   rotation="0 180 0"
                   scale="10 10 10">
         </a-entity>
 
-        <!-- Location Marker (A simple red square at the same GPS location) -->
-        <a-entity gps-entity-place="latitude: 34.06539840017677; longitude: -118.26901787471688"
-                  geometry="primitive: plane; height: 5; width: 5"
-                  material="color: red; opacity: 0.5">
+        <!-- Location Marker (A simple red square for reference) -->
+        <a-entity gps-entity-place="latitude: 34.0653984; longitude: -118.2690179"
+                  geometry="primitive: plane; height: 10; width: 10"
+                  material="color: red; opacity: 0.6">
         </a-entity>
 
     </a-scene>
 
     <script>
-        // Get the current geolocation for debugging
+        // Debugging: Get the current geolocation and show it in the console
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 console.log("Current location:");
                 console.log("Latitude: " + position.coords.latitude);
                 console.log("Longitude: " + position.coords.longitude);
+
+                // Show an alert if the user is too far from the AR location
+                const targetLat = 34.0653984;
+                const targetLon = -118.2690179;
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+                const distance = getDistance(userLat, userLon, targetLat, targetLon);
+
+                console.log("Distance to AR object: " + distance.toFixed(2) + " meters");
+
+                if (distance > 50) {
+                    alert("You are too far from the AR object. Move closer to see it!");
+                }
             }, function(error) {
                 console.error("Error getting geolocation: ", error);
             });
         } else {
             console.log("Geolocation is not supported by this browser.");
+        }
+
+        // Function to calculate distance between two coordinates (Haversine Formula)
+        function getDistance(lat1, lon1, lat2, lon2) {
+            function toRad(value) {
+                return (value * Math.PI) / 180;
+            }
+            const R = 6371e3; // Earth’s radius in meters
+            const φ1 = toRad(lat1);
+            const φ2 = toRad(lat2);
+            const Δφ = toRad(lat2 - lat1);
+            const Δλ = toRad(lon2 - lon1);
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
         }
     </script>
 </body>
